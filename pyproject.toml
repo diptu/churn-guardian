@@ -1,0 +1,41 @@
+[project]
+name = "churn-guardian"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "colorlog>=6.9.0",
+    "fastapi[standard]>=0.116.1",
+    "flaml>=2.3.6",
+    "joblib>=1.5.2",
+    "matplotlib>=3.10.6",
+    "numpy>=2.3.3",
+    "pandas>=2.3.2",
+    "pydantic-settings>=2.10.1",
+    "scikit-learn>=1.7.2",
+    "seaborn>=0.13.2",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "mypy>=1.18.1",
+    "pre-commit-hooks>=6.0.0",
+    "pylint>=3.3.8",
+    "pytest-asyncio>=1.2.0",
+    "pytest-mock>=3.15.0",
+    "ruff>=0.13.0",
+]
+
+[tool.black]
+line-length = 88
+
+[tool.ruff]
+line-length = 88
+fix = true
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true

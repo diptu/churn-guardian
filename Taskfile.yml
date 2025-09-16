@@ -1,0 +1,80 @@
+version: "3"
+
+# ----------------------
+# Default tasks variables
+# ----------------------
+vars:
+  FILE: "app"  # default file/folder if not provided
+
+tasks:
+  # ----------------------
+  # Lint
+  # ----------------------
+  lint:
+    desc: Run pylint on a specific file or folder
+    cmds:
+      - PYTHONPATH=$(pwd) uv run pylint {{.FILE}}
+
+  # ----------------------
+  # Type checking
+  # ----------------------
+  typecheck:
+    desc: Run mypy type checks on a file or folder
+    cmds:
+      - PYTHONPATH=$(pwd) uv run mypy {{.FILE}}
+
+  # ----------------------
+  # Code formatting
+  # ----------------------
+  format:
+    desc: Format code with black
+    cmds:
+      - PYTHONPATH=$(pwd) uv run black {{.FILE}}
+
+  # ----------------------
+  # Lint + format auto-fix
+  # ----------------------
+  fix:
+    desc: Automatically fix lint/format issues
+    cmds:
+      - PYTHONPATH=$(pwd) uv run black {{.FILE}}
+      - PYTHONPATH=$(pwd) uv run isort {{.FILE}}
+
+  # ----------------------
+  # Unit tests
+  # ----------------------
+  test:
+    desc: Run pytest on a file or folder
+    cmds:
+      - PYTHONPATH=$(pwd) uv run pytest -v {{.FILE}}
+
+  # ----------------------
+  # End-to-end test
+  # ----------------------
+  test_e2e:
+    desc: Run end-to-end test on a file or folder
+    cmds:
+      - PYTHONPATH=$(pwd) uv run pytest -v {{.FILE}}
+
+  # ----------------------
+  # Train model
+  # ----------------------
+  train:
+    desc: Train churn prediction model
+    vars:
+      FILE: "app/scripts/train.py"
+      EPOCHS: 5
+    cmds:
+      - PYTHONPATH=$(pwd) uv run python -m {{.FILE}} --epochs {{.EPOCHS}}
+
+  # ----------------------
+  # Full workflow for a file/folder
+  # ----------------------
+  all:
+    desc: Run lint, typecheck, format, fix, and tests on a file or default folder
+    cmds:
+      - task lint FILE={{.FILE}}
+      - task typecheck FILE={{.FILE}}
+      - task format FILE={{.FILE}}
+      - task fix FILE={{.FILE}}
+      - task test FILE={{.FILE}}

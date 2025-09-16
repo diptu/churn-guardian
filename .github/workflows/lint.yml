@@ -1,0 +1,33 @@
+name: Lint & Type Check
+
+on:
+  push:
+    branches: ["**"]   # run on all branches
+  pull_request:
+    branches: ["**"]   # run on all branches
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"   # match pyproject.toml if different
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Run Ruff (lint + format check)
+        run: uv run ruff check . && uv run ruff format --check .
+
+      - name: Run MyPy (static type checking)
+        run: uv run mypy app
+

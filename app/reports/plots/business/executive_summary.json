@@ -1,0 +1,17 @@
+{
+  "key_findings": [
+    "n_rows",
+    "n_cols",
+    "dtypes",
+    "missing_ratio",
+    "target_distribution",
+    "outliers",
+    "missingness"
+  ],
+  "feature_recommendations": {
+    "id_like": [],
+    "constant": [],
+    "high_missing": [],
+    "high_cardinality": []
+  }
+}
